@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <body>
+        <div>
+        <form id="form">
+                <button onclick="call_api()">Call API</button>
+        </form>
+        </div>
+    </body>
+</html>
+
+<script>
+    function call_api() {
+            axios.get('http://165.227.214.96:3000')
+            .then(resp=>{
+                console.log(resp);
+            })
+    }
+</script>
