@@ -6,13 +6,21 @@
     <body>
         <div>
         <form id="form">
-                <button onclick="call_api()">Call Digital Ocean Origianl API</button>
+                <button onclick="call_api()">Call Digital Ocean Original API</button>
                 <br>
-                <button onclick="call_lambda()">Call AWS Lambda directly</button>
+                <button onclick="call_lambda()">Call AWS Lambda from browser</button>
                 <br>
-                <button onclick="call_lambda_via_do()">Call AWS Lambda via DO</button>
+                <button onclick="call_lambda_via_do('response')">Call AWS Lambda via DO</button>
             </form>
-            </div>
+        </div>
+        <div>
+            <h4>Click Response</h4>
+            <span id=response></span>
+        </div>
+        <div>
+            <h4>Interval Response</h4>
+            <span id=interval></span>
+        </div>
     </body>
 </html>
 
@@ -24,20 +32,36 @@
             axios.get('http://165.227.214.96:3000')
             .then(resp=>{
                 console.log(resp);
+                document.getElementById("response").innerHTML = resp.data;
             })
     }
 
     function call_lambda() {
             axios.get('https://sgegy8vi0k.execute-api.us-west-2.amazonaws.com/prod')
             .then(resp=>{
+                x=resp;
+                time=JSON.parse(x.data["body-json"]).currentTime
                 console.log(resp);
+                
+               document.getElementById("response").innerHTML = "AWS Time via Browser: "+time;
             })
     }
 
-    function call_lambda_via_do() {
-        axios.get('http://165.227.214.96:3000/lambda')
+    function call_lambda_via_do(id) {
+        axios.get('http:///165.227.214.96:3000/lambda')
             .then(resp=>{
+                x=resp;
+                time=JSON.parse(x.data["body-json"]).currentTime
                 console.log(resp);
+                
+               document.getElementById(id).innerHTML = "AWS Time via DO passthrough: "+time;
             })
     }
-</script>
+    
+    
+    document.addEventListener("DOMContentLoaded", function(){
+        console.log("Starting Interval");
+        call_lambda_via_do("interval");
+        setInterval(function() {call_lambda_via_do("interval")}, 10000);
+    });
+</script>  
