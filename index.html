@@ -6,9 +6,13 @@
     <body>
         <div>
         <form id="form">
-                <button onclick="call_api()">Call API</button>
-        </form>
-        </div>
+                <button onclick="call_api()">Call Digital Ocean Origianl API</button>
+                <br>
+                <button onclick="call_lambda()">Call AWS Lambda directly</button>
+                <br>
+                <button onclick="call_lambda_via_do()">Call AWS Lambda via DO</button>
+            </form>
+            </div>
     </body>
 </html>
 
@@ -18,6 +22,20 @@
     });
     function call_api() {
             axios.get('http://165.227.214.96:3000')
+            .then(resp=>{
+                console.log(resp);
+            })
+    }
+
+    function call_lambda() {
+            axios.get('https://sgegy8vi0k.execute-api.us-west-2.amazonaws.com/prod')
+            .then(resp=>{
+                console.log(resp);
+            })
+    }
+
+    function call_lambda_via_do() {
+        axios.get('http://165.227.214.96:3000/lambda')
             .then(resp=>{
                 console.log(resp);
             })
